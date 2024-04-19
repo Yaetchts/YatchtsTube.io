@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Video Sharing Website</title>
+    <link rel="stylesheet" href="static/css/styles.css"> <!-- Link to your CSS stylesheet -->
+    <style>
+        /* CSS for hiding the form by default */
+        .upload-form-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+            z-index: 1000; /* Ensure the form is on top of other content */
+        }
+
+        .upload-form {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff; /* White background for the form */
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px; /* Adjust width to match Streamable layout */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+        }
+
+        .upload-form h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333; /* Dark text color */
+        }
+
+        .upload-form label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #555; /* Lighter text color */
+        }
+
+        .upload-form input[type="text"],
+        .upload-form input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc; /* Light gray border */
+            border-radius: 5px;
+        }
+
+        .upload-form button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #0073e6; /* Streamable blue */
+            color: #fff; /* White text color */
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .upload-form button:hover {
+            background-color: #005bab; /* Darker blue on hover */
+        }
+
+        .black-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* Adjust height as needed */
+            background-color: #000; /* Black background color */
+            z-index: 1000; /* Ensure it's above other content */
+        }
+
+        /* CSS for the content below the black background */
+        .content {
+            padding-top: 60px; /* Ensure enough space below the black background */
+            /* Add additional styling for your content */
+        }
+
+
+        /* CSS for the white-greyish div with logo */
+        .logo-section {
+            background-color: #f3f3f3; /* White-greyish background color */
+            padding: 20px;
+        }
+
+        .logo-section img {
+            max-width: 20px; /* Adjust max-width of logo as needed */
+            vertical-align: middle; /* Align the logo vertically */
+        }
+
+        .support-image {
+            max-width: 200px; /* Adjust max-width of support image as needed */
+           position:absolute;
+           left:600px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Black background div -->
+<div class="black-background">
+   <p>Yacthts tube</p>
+</div><br><br><br>
+
+
+<!-- White-greyish div with logo -->
+<div class="logo-section">
+    <img src="logo.jpg" alt="Logo">
+    <img src="support-specific.jpg" alt="Support Someone Specific" class="support-image">
+</div>
+<h1>No sign up<br>Simply upload a video</h1>
+<button id="uploadButton">Upload</button>
+
+<!-- Popup Form Container -->
+<div id="uploadFormContainer" class="upload-form-container">
+    <!-- Popup Form for Video Details -->
+    <div class="upload-form">
+        <h2>Upload Video</h2>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="surname">Surname:</label>
+            <input type="text" id="surname" name="surname" required>
+            <label for="profilePic">Profile Picture:</label>
+            <input type="file" id="profilePic" name="profilePic" accept="image/*" required>
+            <label for="videoTitle">Video Title:</label>
+            <input type="text" id="videoTitle" name="videoTitle" required>
+            <label for="visibility">Video Visible for Period of Time:</label>
+            <input type="text" id="visibility" name="visibility" placeholder="e.g., 24 hours" required>
+            <label for="video">Upload Video:</label>
+            <input type="file" id="video" name="video" accept="video/*" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<!-- Navigation Bar -->
+<nav>
+    <div class="container">
+        <h1>Your Video Sharing Website</h1>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/upload">Upload Video</a></li>
+            <!-- Add more navigation links as needed -->
+        </ul>
+    </div>
+</nav>
+
+<!-- Main Content Area -->
+<div class="container">
+    <h2>Latest Videos</h2>
+    <div class="video-grid">
+        <!-- Display uploaded images dynamically -->
+        <?php
+        // Directory where images are stored
+        $directory = "upload/";
+
+        // Get all files in the directory
+        $files = glob($directory . "*.{jpg,jpeg,png,gif}", GLOB_BRACE);
+
+        // Loop through each file and display it
+        foreach ($files as $file) {
+            echo "<div class='video-card'>";
+            echo "<img src='$file' alt='Video Thumbnail'>";
+            echo "<h3>Image Title</h3>"; // You can add a title for each image
+            echo "</div>";
+        }
+        ?>
+    </div>
+</div>
+        
+        <!-- Repeat this structure for each uploaded video -->
+    </div>
+</div>
+
+<!-- JavaScript for Popup Form -->
+<script>
+    // Get the upload button and form container
+    var uploadButton = document.getElementById('uploadButton');
+    var uploadFormContainer = document.getElementById('uploadFormContainer');
+
+    // Display the form container as a popup when the upload button is clicked
+    uploadButton.addEventListener('click', function() {
+        uploadFormContainer.style.display = 'block';
+    });
+</script>
+
+</body>
+</html>
